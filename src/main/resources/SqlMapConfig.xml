@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig
+PUBLIC "-//ibatis.apache.org//DTD SQL MapConfig2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<!-- Alwaysensure to use thecorrect XML headerasabove! -->
+<sqlMapConfig>
+	<!-- Theproperties(name=value) in thefilespecified here canbe usedplaceholders 
+		inthisconfig file (e.g.“${driver}”. The file isrelativeto theclasspathandis 
+		completelyoptional. -->
+	<properties resource = "SqlMapConfig.properties"/>
+	
+	<!-- ThesesettingscontrolSqlMapClient configurationdetails, primarily to 
+		do withtransaction management. Theyare all optional(moredetaillaterin this 
+		document). -->
+	<settings cacheModelsEnabled="true" 
+			  enhancementEnabled="true"
+			  lazyLoadingEnabled="true" 
+			  maxRequests="128" 
+			  maxSessions="10"
+			  maxTransactions="5"
+			  useStatementNamespaces="false"
+			  defaultStatementTimeout="5" 
+			  statementCachingEnabled="true"
+			  classInfoCacheEnabled="true" />
+			  
+	<!-- This element declares a factory class that iBATIS will use for creating result 
+		objects. This element is optional (more detail later inthisdocument). -->
+	<resultObjectFactory type="com.mydomain.MyResultObjectFactory">
+		<property name="someProperty" value="someValue" />
+	</resultObjectFactory>
+	
+	<!-- Type aliases allow you to use a shorter name for long fully qualified class names. -->
+	<typeAlias alias="order" type="testdomain.Order" />
+	
+	<!-- Configure a datasource to use with this SQL Map using SimpleDataSource. Notice the	use of the properties from the above resource -->
+	<transactionManagertype = "JDBC">
+		<dataSource type="SIMPLE">
+			<property name="JDBC.Driver" value="${driver}" />
+			<property name="JDBC.ConnectionURL" value="${url}" />
+			<property name="JDBC.Username" value="${username}" />
+			<property name="JDBC.Password" value="${password}" />
+			<property name="JDBC.DefaultAutoCommit" value="true" />
+			<property name="Pool.MaximumActiveConnections" value="10" />
+			<property name="Pool.MaximumIdleConnections" value="5" />
+			<property name="Pool.MaximumCheckoutTime" value="120000" />
+			<property name="Pool.TimeToWait" value="500" />
+			<property name="Pool.PingQuery" value="select 1 from ACCOUNT" />
+			<property name="Pool.PingEnabled" value="false" />
+			<property name="Pool.PingConnectionsOlderThan" value="1" />
+			<property name="Pool.PingConnectionsNotUsedFor" value="1" />
+		</dataSource>
+	</transactionManager>
+	
+	<!-- Identify all SQL MapXML files to beloadedbythisSQLmap. Notice thepaths 
+			arerelative to theclasspath. For now,weonlyhave one… -->
+	<sqlMap resource="examples/sqlmap/maps/Person.xml" />
+</sqlMapConfig>
